@@ -197,10 +197,15 @@ function CourseDetails() {
               <p className="space-x-3 pb-4 text-3xl font-semibold text-richblack-5">
                 Rs. {price}
               </p>
-              <button className="yellowButton" onClick={handleBuyCourse}>
-                Buy Now
+            <button className="yellowButton" onClick={handleBuyCourse}>
+              {user && response?.data?.courseDetails?.studentsEnrolled.includes(user?._id)
+                ? "Go To Course"
+                : "Buy Now"}
               </button>
-              <button className="blackButton onClick={handleAddToCart}">Add to Cart</button>
+              {(!user || !response?.data?.courseDetails?.studentsEnrolled.includes(user?._id)) && (
+              <button onClick={handleAddToCart} className="blackButton">
+                Add to Cart
+              </button>
             </div>
           </div>
           {/* Courses Card */}
