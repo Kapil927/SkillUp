@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
 	cors({
-		origin:"http://skillup-backend.onrender.com", //bc bs yahan https likhdo to cors ki policy koi hit ho jati hai jo blovk karti hai request from backend
+		origin:"https://skillup-learn.vercel.app", //bc bs yahan https likhdo to cors ki policy koi hit ho jati hai jo blovk karti hai request from backend
 		credentials:true,
 	})
 )
