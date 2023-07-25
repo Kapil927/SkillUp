@@ -16,6 +16,10 @@ import { buyCourse } from "../services/operations/studentFeaturesAPI"
 import GetAvgRating from "../utils/avgRating"
 import Error from "./Error"
 
+import { addToCart } from "../slices/cartSlice"
+import { ACCOUNT_TYPE } from "../utils/constants"
+import { toast } from "react-hot-toast"
+
 function CourseDetails() {
   const { user } = useSelector((state) => state.profile)
   const { token } = useSelector((state) => state.auth)
@@ -125,6 +129,25 @@ function CourseDetails() {
     )
   }
 
+  const handleAddToCart = () => {
+    if (user && user?.accountType === ACCOUNT_TYPE.INSTRUCTOR) {
+      toast.error("You are an Instructor. You can't buy a course.")
+      return
+    }
+    if (token) {
+      dispatch(addToCart(response?.data?.courseDetails))
+      return
+    }
+    setConfirmationModal({
+      text1: "You are not logged in!",
+      text2: "Please login to add To Cart",
+      btn1Text: "Login",
+      btn2Text: "Cancel",
+      btn1Handler: () => navigate("/login"),
+      btn2Handler: () => setConfirmationModal(null),
+    })
+  }
+  
   return (
     <>
       <div className={`relative w-full bg-richblack-800`}>
@@ -177,7 +200,7 @@ function CourseDetails() {
               <button className="yellowButton" onClick={handleBuyCourse}>
                 Buy Now
               </button>
-              <button className="blackButton">Add to Cart</button>
+              <button className="blackButton onClick={()=>{handleAddToCart()}}">Add to Cart</button>
             </div>
           </div>
           {/* Courses Card */}
