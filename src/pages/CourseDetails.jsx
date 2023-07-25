@@ -200,7 +200,7 @@ function CourseDetails() {
               <button className="yellowButton" onClick={handleBuyCourse}>
                 Buy Now
               </button>
-              <button className="blackButton onClick={()=>{handleAddToCart()}}">Add to Cart</button>
+              <button className="blackButton onClick={handleAddToCart}">Add to Cart</button>
             </div>
           </div>
           {/* Courses Card */}
