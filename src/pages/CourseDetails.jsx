@@ -16,9 +16,10 @@ import { buyCourse } from "../services/operations/studentFeaturesAPI"
 import GetAvgRating from "../utils/avgRating"
 import Error from "./Error"
 
-import { addToCart } from "../slices/cartSlice"
 import { ACCOUNT_TYPE } from "../utils/constants"
+import { addToCart } from "../slices/cartSlice"
 import { toast } from "react-hot-toast"
+
 
 function CourseDetails() {
   const { user } = useSelector((state) => state.profile)
@@ -66,7 +67,7 @@ function CourseDetails() {
     setIsActive(
       !isActive.includes(id)
         ? isActive.concat([id])
-        : isActive.filter((e) => e != id)
+        : isActive.filter((e) => e !== id)
     )
   }
 
@@ -135,7 +136,8 @@ function CourseDetails() {
       return
     }
     if (token) {
-      dispatch(addToCart(response?.data?.courseDetails))
+      
+      dispatch(addToCart(response?.data?.courseDetails));
       return
     }
     setConfirmationModal({
@@ -147,7 +149,7 @@ function CourseDetails() {
       btn2Handler: () => setConfirmationModal(null),
     })
   }
-  
+
   return (
     <>
       <div className={`relative w-full bg-richblack-800`}>
@@ -197,16 +199,24 @@ function CourseDetails() {
               <p className="space-x-3 pb-4 text-3xl font-semibold text-richblack-5">
                 Rs. {price}
               </p>
-            <button className="yellowButton" onClick={handleBuyCourse}>
+              <button
+              className="yellowButton"
+              onClick={
+                user && response?.data?.courseDetails?.studentsEnrolled.includes(user?._id)
+                  ? () => navigate("/dashboard/enrolled-courses")
+                  : handleBuyCourse
+              }
+            >
               {user && response?.data?.courseDetails?.studentsEnrolled.includes(user?._id)
                 ? "Go To Course"
                 : "Buy Now"}
-              </button>
-              {(!user || !response?.data?.courseDetails?.studentsEnrolled.includes(user?._id)) && (
+            </button>
+            {(!user || !response?.data?.courseDetails?.studentsEnrolled.includes(user?._id)) && (
               <button onClick={handleAddToCart} className="blackButton">
                 Add to Cart
               </button>
-            </div>
+            )}
+               </div>
           </div>
           {/* Courses Card */}
           <div className="right-[1rem] top-[60px] mx-auto hidden min-h-[600px] w-1/3 max-w-[410px] translate-y-24 md:translate-y-0 lg:absolute  lg:block">
