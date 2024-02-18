@@ -80,13 +80,8 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
         paymentObject.on("payment.failed", function(response) {
-        alert(response.error.code);
-        alert(response.error.description);
-        alert(response.error.source);
-        alert(response.error.step);
-        alert(response.error.reason);
-        alert(response.error.metadata.order_id);
-        alert(response.error.metadata.payment_id);
+            toast.error("oops, payment failed");
+            console.log(response.error);
         })
     }
     catch(error) {
